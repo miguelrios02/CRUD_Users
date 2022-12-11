@@ -10,10 +10,32 @@ const defaultValues ={
 const validationEmail = {
   required:"Email is required",
   minLength:{
-    message:"Email is to short",
+    message:"Email is too short",
     value:3,
   }
 }
+  const validationPassword = {
+    required:"Password is required",
+    minLength:{
+      message:"Password is too short",
+      value:8,
+    }
+  }
+  const validationFirstName = {
+    required:"First name is required",
+    maxLength:{
+      message:"First name is too long",
+      value:24,
+    }
+  }
+  const validationLastName = {
+    required:"Last name is required",
+    maxLength:{
+      message:"Last name is too long",
+      value:24,
+    }
+  }
+
 const FormUsers = ({ createUser, update,updateUser,isShowForm,hanleChangeShowModal}) => {
   const { handleSubmit, register, reset,formState:{errors} } = useForm();
 
@@ -46,26 +68,38 @@ const handleX = ()=>{
         <h2 className="form__title">{update ?"edit user":"New user"}</h2>
       <div className="form__div">
         <label className="form__label" htmlFor="">Email</label>
-        <input className="form__input" type="email" placeholder="enter your email" {...register("email",validationEmail)} />
+        <input className={`form__input ${errors.email ?"error__content":""}`} type="email" placeholder="Enter your email" {...register("email",validationEmail)} />
         {
-          errors.email&& <p>{errors.email.message}</p>
+          errors.email&& <p className="erros__form"><i class='bx bxs-error-circle'></i>{errors.email.message}</p>
         }
       </div>
       <div className="form__div">
         <label className="form__label" htmlFor="">Password</label>
-        <input className="form__input" placeholder="enter your email" type="password" {...register("password")} />
+        <input className={`form__input ${errors.password?"error__content":""}`} placeholder="Enter your password" type="password" {...register("password",validationPassword)} />
+        {
+          errors.password&& <p className="erros__form"><i class='bx bxs-error-circle'></i>{errors.password.message}</p>
+        }
       </div>
       <div className="form__div">
-        <label className="form__label" htmlFor="">First_name</label>
-        <input className="form__input" placeholder="enter your email" type="text" {...register("first_name")} />
+        <label className="form__label" htmlFor="">First name</label>
+        <input className={`form__input ${errors.first_name ?"error__content":""}`} placeholder="Enter your first name" type="text" {...register("first_name",validationFirstName)} />
+        {
+          errors.first_name&& <p className="erros__form"><i class='bx bxs-error-circle'></i>{errors.first_name.message}</p>
+        }
       </div>
       <div className="form__div">
-        <label className="form__label" htmlFor="">Last_name</label>
-        <input className="form__input" placeholder="enter your email" type="text" {...register("last_name")} />
+        <label className="form__label" htmlFor="">Last name</label>
+        <input className={`form__input ${errors.last_name ?"error__content":""}`}placeholder="Enter your Last name" type="text" {...register("last_name",validationLastName)} />
+        {
+          errors.last_name&& <p className="erros__form"><i class='bx bxs-error-circle'></i>{errors.last_name.message}</p>
+        }
       </div>
       <div className="form__div">
         <label className="form__label" htmlFor="">Birthday</label>
-        <input className="form__input" type="date" {...register("birthday")} />
+        <input className={`form__input ${errors.birthday ?"error__content":""}`} type="date" {...register("birthday",{required:"Birthday is required"})} />
+        {
+          errors.birthday&& <p  className="erros__form"> <i class='bx bxs-error-circle'></i>  {errors.birthday.message}</p>
+        }
       </div >
       <button className="form__btn">{update ?"edit user":"new user"}</button>
     </form>
